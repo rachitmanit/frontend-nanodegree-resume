@@ -58,7 +58,6 @@ var HTMLonlineURL = '<br><a href="#">%data%</a>';
 var internationalizeButton = '<button>Internationalize</button>';
 var googleMap = '<div id="map"></div>';
 
-
 /*
 The International Name challenge in Lesson 2 where you'll create a function that will need this helper code to run. Don't delete! It hooks up your code to the button you'll be appending.
 */
@@ -233,6 +232,37 @@ function initializeMap() {
   pinPoster(locations);
 
 }
+
+var formattedName= HTMLheaderName.replace("%data%","Rachit Saxena");
+var formattedRole= HTMLheaderRole.replace("%data%","Web Developer");
+$("#header").prepend(formattedRole);
+$("#header").prepend(formattedName);
+
+var bio={
+  "name": "Rachit Saxena",
+  "role": "Web Developer",
+  "contacts": {
+    "mobile": "+91-8989475496",
+    "email": "rachitmanit@gmail.com",
+    "CodeChef": "handle-rachitmanit"
+  },
+  "welcomeMessage": "Hi! Please have a view to this Resume.",
+  "skills":[ "HTML", "JavaScript", "C", "C++", "PHP", "CSS"],
+  "bioPic": "images/fry.jpg"
+}
+
+bio.city="Gwalior";
+
+var work={};
+work.position="Software Engineer";
+work.employer="Samsung R&D India";
+work.years=0.1;
+
+var education= {};
+education["name"]="NIT Bhopal";
+education["years"]="2012-2016";
+education["city"]="Bhopal";
+
 
 /*
 Uncomment the code below when you're ready to implement a Google Map!
