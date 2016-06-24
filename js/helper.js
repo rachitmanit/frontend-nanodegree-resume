@@ -50,7 +50,7 @@ var HTMLschoolLocation = '<div class="location-text">%data%</div>';
 var HTMLschoolMajor = '<em><br>Major: %data%</em>';
 
 var HTMLonlineClasses = '<h3>Online Classes</h3>';
-var HTMLonlineTitle = '<a href="#">%data%';
+var HTMLonlineTitle = '<a style="margin-left:80px;" href="#">%data%';
 var HTMLonlineSchool = ' - %data%</a>';
 var HTMLonlineDates = '<div class="date-text">%data%</div>';
 var HTMLonlineURL = '<br><a href="#">%data%</a>';
@@ -126,12 +126,13 @@ function initializeMap() {
     var locations = [];
 
     // adds the single location property from bio to the locations array
-    locations.push(bio.contacts.location);
+    locations.push(bio.contacts.city);
 
     // iterates through school locations and appends each location to
     // the locations array. Note that forEach is used for array iteration
     // as described in the Udacity FEND Style Guide: 
     // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
+    
     education.schools.forEach(function(school){
       locations.push(school.location);
     });
@@ -141,7 +142,7 @@ function initializeMap() {
     // as described in the Udacity FEND Style Guide: 
     // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
     work.jobs.forEach(function(job){
-      locations.push(job.location);
+      locations.push(job.city);
     });
 
     return locations;
@@ -244,36 +245,125 @@ var bio={
   "contacts": {
     "mobile": "+91-8989475496",
     "email": "rachitmanit@gmail.com",
-    "CodeChef": "handle-rachitmanit"
+    "twitter": "https://twitter.com/rachitmanit"
   },
   "welcomeMessage": "Hi! Please have a view to this Resume.",
   "skills":[ "HTML", "JavaScript", "C", "C++", "PHP", "CSS"],
-  "bioPic": "images/fry.jpg"
+  "bioPic": "images/rachit.png"
 }
 
 bio.city="Gwalior";
 
-var work={};
-work.position="Software Engineer";
-work.employer="Samsung R&D India";
-work.years=0.1;
+var work={
+  "position": ["Software Engineer","Web Application Developer"],
+  "employer": ["Samsung R&D India","Sarva"],
+  "years": [0.0,0.7],
+  "city": ["Noida, U.P.","Bhopal, M.P."],
+  "url": ["https://www.srinoida.com","https://www.sarvakart.com"],
+  "dates": ["2016-onwards","Sept 2015 - January 2016"],
+  "description": ["I am currently working as Android Developer and Tester for Mobile Applications in Samsung Mobiles.",
+   "I worked as Web Application Developer at Sarva. Sarva is an E-grocery website. I worked over checkout-panel, Cart-management, order-mailing services."]
+};
 
-var education= {};
-education["name"]="NIT Bhopal";
-education["years"]="2012-2016";
-education["city"]="Bhopal";
+var project={
+  "title": ["Get Best Answer","Alarm Your Position","Polarity of a review/post"],
+  "description": ['Developed a Web Application which takes a question from user as input (based on search domains of Stack Overflow) and find the most suitable set of accepted answers  (i.e. answers with green tick) posted on Stack Overflow relating to topic. It uses Parallel programming in fetching contents from Stack Overflow. Involves usage of Google-Web-PHP API and Stack Overflow API. Success rate is almost 100% as it involve Google web search as primary result.Technology Used: PHP.',
+  'Designed and developed an Android application which allows the users to create reminders based on location. This app also alarms user for the nearest neighborhood of interest (i.e. any reminders set for the neighborhood). It uses Google-Play-Services and Google-Map-API to fetch and pin the position the map. Added new feature of tagging positions on Google Map which are not found in Google map search results making this application work over all places that can be pinned over Google maps. Technology Used: Android',
+  'Developed a Naïve Bayes classifier fetching reviews from Rotten Tomatoes and classifying them. We have handled emoticons and negations (two-word like- "not attractive"). Polarity accuracy is 73.065% as tested from results of Rotten Tomatoes. Technology Used: PHP.'],
+  "dates": ["May 2015 - June 2015", "Jan 2016 - April 2016", "Jan 2015 - April 2015"]
+}
 
+var education={
+  "schools":[
+    {
+    "name": "NIT Bhopal",
+    "location": "Bhopal, Madhya Pradesh",
+    "degree": "B.Tech",
+    "majors": ["CSE"],
+    "dates": 2016,
+    "url": "https://in.linkedin.com/in/rachit-saxena-881a768b"
+    }
+  ]
+,
+  "onlineCourses":[
+  {
+    "title":"JavaScript Syntax",
+    "school": "Udacity",
+    "date": 2016,
+    "url": "https://classroom.udacity.com/courses/ud804/lessons/1946788554/concepts/25505685350923"
+  }
+  ]
+};
+
+$("#topContacts").append(HTMLbioPic.replace("%data%",bio.bioPic));
+$("#topContacts").append(HTMLmobile.replace("%data%",bio.contacts.mobile));
+$("#topContacts").append(HTMLemail.replace("%data%",bio.contacts.email));
+$("#topContacts").append(HTMLtwitter.replace("%data%",bio.contacts.twitter));
+$("#topContacts").append(HTMLwelcomeMsg.replace("%data%",bio.welcomeMessage));
+
+if(bio.skills.length>0)
+{
+  var i=0;
+  $("#header").append(HTMLskillsStart);
+  while(i<bio.skills.length)
+  {
+    var temp = HTMLskills;
+    temp = temp.replace("%data%",bio.skills[i]);
+    $("#skills").append(temp);
+    i++;
+  }
+}
+
+for(i in work.employer)
+{
+  $("#workExperience").append(HTMLworkStart);
+
+  var employer = HTMLworkEmployer.replace("%data%",work.employer[i]);
+  employer = employer.replace("#",work.url[i]);
+  var title = HTMLworkTitle.replace("%data%",work.position[i]);
+  var date = HTMLworkDates.replace("%data%",work.dates[i]);
+  var description = HTMLworkDescription.replace("%data%",work.description[i]);
+  var city = HTMLworkLocation.replace("%data%",work.city[i]);
+  $(".work-entry:last").append(employer+city+title+date+description);
+}
+
+for(i in project.title)
+{
+  $("#projects").append(HTMLprojectStart);
+  var title = HTMLprojectTitle.replace("%data%",project.title[i]);
+  var date = HTMLprojectDates.replace("%data%",project.dates[i]);
+  var description = HTMLprojectDescription.replace("%data%",project.description[i]);
+
+  $(".project-entry:last").append(title+date+description);
+}
+$(".project-entry:last").append("<br/>");
+
+/*
+var HTMLonlineClasses = '<h3>Online Classes</h3>';
+var HTMLonlineTitle = '<a href="#">%data%';
+var HTMLonlineSchool = ' - %data%</a>';
+var HTMLonlineDates = '<div class="date-text">%data%</div>';
+var HTMLonlineURL = '<br><a href="#">%data%</a>';
+*/
+
+$("#education").append(HTMLonlineClasses);
+var link = education.onlineCourses[0].url;
+var title = HTMLonlineTitle.replace("%data%",education.onlineCourses[0].title);
+var school = HTMLonlineSchool.replace("%data%",education.onlineCourses[0].school);
+title = title.replace("#",link);
+$("#education").append(title+school);
 
 /*
 Uncomment the code below when you're ready to implement a Google Map!
 */
 
 // Calls the initializeMap() function when the page loads
-//window.addEventListener('load', initializeMap);
+window.addEventListener('load', initializeMap);
 
 // Vanilla JS way to listen for resizing of the window
 // and adjust map bounds
-//window.addEventListener('resize', function(e) {
+window.addEventListener('resize', function(e) {
   //Make sure the map bounds get updated on page resize
-//  map.fitBounds(mapBounds);
-//});
+  map.fitBounds(mapBounds);
+});
+
